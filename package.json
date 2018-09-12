@@ -2,7 +2,8 @@
     "name": "grad-electricFence",
     "contributors": [
         {
-            "name": "McDiod"
+            "name": "McDiod",
+            "name": "nomisum"
         }
     ],
     "description": "Library for electrifying fences.",

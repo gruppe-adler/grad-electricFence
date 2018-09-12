@@ -7,6 +7,8 @@ class grad_electricFence {
         file = MODULES_DIRECTORY\grad-electricFence\functions;
 
         class canLockpick {};
+        class createShockSparks {};
+        class createSmoke {};
         class initFence {};
         class initGate {};
         class lockDoors {};
