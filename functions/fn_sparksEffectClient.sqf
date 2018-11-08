@@ -1,7 +1,7 @@
 ["GRAD_electricFence_sparkSmall", {
 	 params ["_position"];
 
-	 [_position] call GRAD_electricFence_fnc_sparkSmall;
+	 [_position] call FUNC(sparkSmall);
 
 	 systemChat "sparksEffect"; // todo remove debug
 

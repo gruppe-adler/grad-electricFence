@@ -18,3 +18,5 @@ if (_shockDamage >= 1) then {
 
 [_unit,"small",15] remoteExec [QFUNC(createSmoke),0,false];
 [_fencePart] remoteExec [QFUNC(createShockSparks),0,false];
+
+ ["GRAD_electricFence_fenceCut", [_unit, _fencePart]] call CBA_fnc_globalEvent;

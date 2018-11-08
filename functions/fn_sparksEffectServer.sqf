@@ -8,15 +8,13 @@ private _classnames = [];
 
 
 if (count _fenceParts < 1) exitWith { diag_log "no fence parts found"; };
-private _fenceMaster = _fenceParts select 0;
-// serial to identify different fence segments/generator dependencies
 
 [{
     params ["_args", "_handle"];
-    _args params ["_fenceParts", "_fenceMaster", "_generator", "_classnames"];
+    _args params ["_fenceParts", "_generator", "_classnames"];
 
-    private _fenceActive = _fenceMaster getVariable ["GRAD_electricFence_isActive", true];
-    private _generatorActive = _generator getVariable ["GRAD_electricFence_isActive", true];
+    private _fenceActive = _generator getVariable ["GRAD_electricFence_fenceActive", true];
+    private _generatorActive = _generator getVariable ["GRAD_electricFence_generatorActive", true];
 
     // if one fence is damaged, power does not circulate
     if (_fenceActive && _generatorActive) then {
@@ -27,11 +25,10 @@ private _fenceMaster = _fenceParts select 0;
             _fences pushBackUnique (_x nearEntities [_classnames, 100]);
         } forEach playableUnits + switchableUnits;
 
-        // if any fences found, select one rndomly
+        // if any fences found, select one randomly
         if (count _fences > 0) then {
-    	    private _currentSelection = floor (random _currentCount);
-    	    private _fence = _fences select _currentSelection;
-            private _position = [_fence] call GRAD_electricFence_fnc_sparksGetPos;
+    	    private _fence = selectRandom _fences;
+            private _position = [_fence] call FUNC(sparksGetPos);
 
             // send spark position to clients
             ["GRAD_electricFence_sparkSmall", [_position]] call CBA_fnc_globalEvent;
@@ -39,4 +36,4 @@ private _fenceMaster = _fenceParts select 0;
 
 	};
 
-}, 1, [_fenceParts, _fenceMaster, _generator, _classnames]] call CBA_fnc_addPerFrameHandler;
+}, 1, [_fenceParts, _generator, _classnames]] call CBA_fnc_addPerFrameHandler;
