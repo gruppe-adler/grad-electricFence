@@ -2,6 +2,7 @@ params [["_fenceParts",[]]];
 
 missionNamespace setVariable ["GRAD_ELECTRIC_FENCE_SPARKPOS", [], true];
 
+// todo generate serial to identify different fence segments/generator dependencies
 
 [{
     params ["_args", "_handle"];
