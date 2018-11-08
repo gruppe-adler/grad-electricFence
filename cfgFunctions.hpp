@@ -13,6 +13,7 @@ class grad_electricFence {
         class createShockSparks;
         class createSmoke;
         class generateSerial;
+        class init { postInit = 1; };
         class initFence;
         class initGate;
         class lockDoors;

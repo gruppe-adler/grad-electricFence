@@ -9,6 +9,9 @@ params ["_fencePart", ["_id", 0]];
 
 if (!isServer) exitWith {};
 
+private _maximumID = (missionNamespace getVariable ["GRAD_electricFence_idCount", 0]) max _id;
+missionNamespace setVariable ["GRAD_electricFence_idCount", _maximumID];
+
 // get identifier for public var
 private _identifier = format ["GRAD_electricFenceParts_%1", _id];
 

@@ -33,4 +33,5 @@ private _fenceGates = _fenceParts select {isClass (configfile >> "CfgVehicles" >
 if (isServer) then {
     [_fenceParts] call FUNC(sparksEffectServer);
     [_fenceParts] remoteExec ["QFUNC(sparksEffectClient)", [0,-2] select isDedicated, true];
+
 };
