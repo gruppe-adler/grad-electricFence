@@ -15,9 +15,7 @@ missionNamespace setVariable ["GRAD_ELECTRIC_FENCE_SPARKPOS", [], true];
     	private _fence = _fenceParts select _currentSelection;
         private _position = [_fence] call GRAD_electricFence_fnc_sparksGetPos;
 
-    	missionNamespace setVariable ["GRAD_ELECTRIC_FENCE_SPARKPOS", _position, true];
-    } else {
-    	missionNamespace setVariable ["GRAD_ELECTRIC_FENCE_SPARKPOS", [], true];
+    	["GRAD_electricFence_sparkSmall", [_position]] call CBA_fnc_globalEvent;
 	};
 
 }, 1, [_fenceParts]] call CBA_fnc_addPerFrameHandler;
