@@ -31,5 +31,6 @@ private _fenceGates = _fenceParts select {isClass (configfile >> "CfgVehicles" >
 {[_x,_lockpickTime,_lockpickSuccessChance,_shockDamage,_shockUnconsciousTimeMinMax] call FUNC(initGate)} forEach _fenceGates;
 
 if (isServer) then {
-    [_fenceParts] call FUNC(sparksEffect);
+    [_fenceParts] call FUNC(sparksEffectServer);
+    [_fenceParts] remoteExec ["QFUNC(sparksEffectClient)", [0,-2] select isDedicated, true];
 };
