@@ -1,21 +1,42 @@
-params [["_fenceParts",[]]];
+params [["_fenceParts",[]], ["_generator", objNull]];
 
-missionNamespace setVariable ["GRAD_ELECTRIC_FENCE_SPARKPOS", [], true];
+// find out all used fence types
+private _classnames = [];
+{
+  _classnames pushBackUnique (typeOf _x);
+} forEach _fenceParts;
 
-// todo generate serial to identify different fence segments/generator dependencies
+
+if (count _fenceParts < 1) exitWith { diag_log "no fence parts found"; };
+private _fenceMaster = _fenceParts select 0;
+// serial to identify different fence segments/generator dependencies
 
 [{
     params ["_args", "_handle"];
-    _args params ["_fenceParts"];
+    _args params ["_fenceParts", "_fenceMaster", "_generator", "_classnames"];
 
-    private _currentCount = count _fenceParts; // todo get actual current non destroyed fences
+    private _fenceActive = _fenceMaster getVariable ["GRAD_electricFence_isActive", true];
+    private _generatorActive = _generator getVariable ["GRAD_electricFence_isActive", true];
 
-    if (_currentCount > 0) then {
-    	private _currentSelection = floor (random _currentCount);
-    	private _fence = _fenceParts select _currentSelection;
-        private _position = [_fence] call GRAD_electricFence_fnc_sparksGetPos;
+    // if one fence is damaged, power does not circulate
+    if (_fenceActive && _generatorActive) then {
 
-    	["GRAD_electricFence_sparkSmall", [_position]] call CBA_fnc_globalEvent;
+        // get all fences in range of any player
+        private _fences = [];
+        {
+            _fences pushBackUnique (_x nearEntities [_classnames, 100]);
+        } forEach playableUnits + switchableUnits;
+
+        // if any fences found, select one rndomly
+        if (count _fences > 0) then {
+    	    private _currentSelection = floor (random _currentCount);
+    	    private _fence = _fences select _currentSelection;
+            private _position = [_fence] call GRAD_electricFence_fnc_sparksGetPos;
+
+            // send spark position to clients
+            ["GRAD_electricFence_sparkSmall", [_position]] call CBA_fnc_globalEvent;
+        };
+
 	};
 
-}, 1, [_fenceParts]] call CBA_fnc_addPerFrameHandler;
+}, 1, [_fenceParts, _fenceMaster, _generator, _classnames]] call CBA_fnc_addPerFrameHandler;
