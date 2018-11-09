@@ -1,23 +1,57 @@
 #include "script_component.hpp"
 
-params [["_obj",objNull]];
+params ["_unit"];
 
 if (!hasInterface) exitWith {};
 
-private _drop = 0.001+(random 0.02);
+private _effects = [];
+private _duration = 1;
+private _amount = 0.001;
+private _lifetime = 0.05;
 
-private _sparkEffect = "#particlesource" createVehicleLocal [getPosATL _obj select 0, getPosATL _obj select 1, 2];
-_sparkEffect setParticleCircle [0, [0, 0, 0]];
-_sparkEffect setParticleRandom [2, [0.1, 0.1, 0.1], [0, 0, -0.1], 0, 0.25, [0, 0, 0, 0], 0, 0];
-_sparkEffect setParticleParams [["\A3\data_f\cl_basic.p3d", 1, 0, 1], "", "Billboard", 1, 3, [0, 0, 0], [0, 0, 0], 0, 15, 7.9, 0, [0.05, 0.04, 0.03], [[1, 0.7, 0.5, 1], [1, 0.7, 0.5, 1], [0, 0, 0, 0]], [0.08], 1, 0, "", "", _obj];
-_sparkEffect setDropInterval _drop;
+_unit setUnconscious true;
 
-private _drop2 = 0.001+(random 0.02);
-private _sparkEffect2 = "#particlesource" createVehicleLocal [getPosATL _obj select 0, getPosATL _obj select 1, 2];
-_sparkEffect2 setParticleCircle [0, [0, 0, 0]];
-_sparkEffect2 setParticleRandom [1, [0.05, 0.05, 0.1], [3, 3, 2], 0, 0.0025, [0, 0, 0, 0], 0, 0];
-_sparkEffect2 setParticleParams [["\A3\data_f\cl_basic.p3d", 1, 0, 1], "", "Billboard", 1, 3, [0, 0, 0], [0, 0, 0], 0, 20, 7.9, 0, [0.05, 0.04, 0.03], [[1, 0.7, 0.5, 1], [1, 0.7, 0.5, 1], [0, 0, 0, 0]], [0.08], 1, 0, "", "", _obj];
-_sparkEffect2 setDropInterval _drop2;
+private _brightness = 0.2;
+private _light = "#lightpoint" createVehicleLocal (position _unit);
+_light setLightBrightness _brightness;
+_light setLightAmbient [1.0, 0.75, 0.75];
+_light setLightColor [1.0, 0.75, 0.75];
 
-[{deleteVehicle _this},_sparkEffect,0.2] call CBA_fnc_waitAndExecute;
-[{deleteVehicle _this},_sparkEffect2,0.3] call CBA_fnc_waitAndExecute;
+{
+    private _position = _unit modelToWorld (_unit selectionPosition _x);
+
+    
+   
+    private _spark = "#particlesource" createVehicleLocal _position;
+    _spark attachTo [_unit,[0,0,0],_x];
+    _spark setParticleCircle [0, [0, 0, 0]];
+    _spark setParticleRandom [0.5, [0.1, 0.1, 0.1], [0.5, 0.5, 1], 0, 0.0025, [0, 0, 0, 0], 0, 0];
+    _spark setParticleParams [
+        ["\A3\data_f\proxies\muzzle_flash\muzzle_flash_silencer.p3d", 1, 0, 1], "", "SpaceObject",
+        1, _lifetime, [0, 0, 0], [0, 0, -0.1], 0, 20, 7.9, 0, 
+        [0.3,0.3,0.05], [[1, 1, 1, 1], [1, 0.5, 0.5, 1], [0.5, 0, 0, 0]], [0.08], 1, 0, "", "", _spark,0,true,0.2,[[1,0.25,0.25,1]]
+    ];
+    _spark setDropInterval _amount; 
+    _effects pushBackUnique _spark;
+
+} forEach selectionNames _unit;
+
+_unit say3D ["GRAD_electricFence_sound_buzz",150];
+_unit say3D ["GRAD_electricFence_sound_argl",100];
+
+for "_i" from 0 to 10 do {
+    _unit setVelocityModelSpace [random 1 - random 2, random 1 - random 2, 0];
+    sleep _duration/10;
+
+    _brightness = _brightness/2;
+    _light setLightBrightness _brightness;
+};
+
+
+{
+     deleteVehicle _x;
+} forEach _effects;
+
+deleteVehicle _light;
+
+_unit setUnconscious false;

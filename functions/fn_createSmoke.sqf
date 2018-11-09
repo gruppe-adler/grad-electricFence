@@ -34,21 +34,21 @@ _source1 = "#particlesource" createVehicleLocal [_position select 0, _position s
 if(_size == "small") then
 {
     _source1 setParticleCircle [0, [0, 0, 0]];
-    _source1 setParticleRandom [0, [0.25, 0.25, 0], [0.2, 0.2, 0], 0, 0.25, [0, 0, 0, 0.1], 0, 0];
+    _source1 setParticleRandom [0, [0.25, 0.25, 0], [0, 0, 0], 0, 0.25, [0, 0, 0, 0.1], 0, 0];
     _source1 setParticleParams [["\A3\data_f\ParticleEffects\Universal\Universal_02", 8, 3, 1], "", "Billboard", 1, _duration, [0, 0, 0], [0, 0, 0.01], 0, 10, 7.9, 10, [3, 4, 5], [[0.5, 0.5, 0.5, 0.15], [0.75, 0.75, 0.75, 0.075], [1, 1, 1, 0]], [0.125], 1, 0, "", "", _object];
     _source1 setDropInterval 0.05;
 };
 if(_size == "medium") then
 {
     _source1 setParticleCircle [0, [0, 0, 0]];
-    _source1 setParticleRandom [0, [0.25, 0.25, 0], [0.2, 0.2, 0], 0, 0.25, [0, 0, 0, 0.1], 0, 0];
+    _source1 setParticleRandom [0, [0.25, 0.25, 0], [0, 0, 0], 0, 0.25, [0, 0, 0, 0.1], 0, 0];
     _source1 setParticleParams [["\A3\data_f\ParticleEffects\Universal\Universal_02", 8, 3, 1], "", "Billboard", 1, _duration, [0, 0, 0], [0, 0, 0.1], 0, 10, 7.9, 1.066, [2, 6, 12], [[0.5, 0.5, 0.5, 0.3], [0.75, 0.75, 0.75, 0.15], [1, 1, 1, 0]], [0.125], 1, 0, "", "", _object];
     _source1 setDropInterval 0.1;
 };
 if(_size == "large") then
 {
     _source1 setParticleCircle [0, [0, 0, 0]];
-    _source1 setParticleRandom [0, [0.5, 0.5, 0], [0.2, 0.2, 0], 0, 0.25, [0, 0, 0, 0.1], 0, 0];
+    _source1 setParticleRandom [0, [0.5, 0.5, 0], [0, 0, 0], 0, 0.25, [0, 0, 0, 0.1], 0, 0];
     _source1 setParticleParams [["\A3\data_f\ParticleEffects\Universal\Universal_02", 8, 3, 1], "", "Billboard", 1, _duration, [0, 0, 0], [0, 0, 0.1], 0, 10, 7.9, 0.5, [4, 12, 20], [[0.5, 0.5, 0.5, 0.5], [0.75, 0.75, 0.75, 0.25], [1, 1, 1, 0]], [0.125], 1, 0, "", "", _object];
     _source1 setDropInterval 0.1;
 };

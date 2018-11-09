@@ -21,3 +21,6 @@ _existingParts pushBackUnique _fencePart;
 
 // save new array
 missionNamespace setVariable [_identifier, _existingParts];
+
+diag_log format ["adding fence parts: %1", _existingParts];
+systemChat format ["adding fence parts: %1", _existingParts];

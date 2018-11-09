@@ -10,6 +10,7 @@ private _moduleConfig = missionConfigFile >> "CfgGradElectricFence";
 
 params [
     ["_fenceParts",[]],
+    ["_id", 0],
     ["_lockpickTime",[_moduleConfig,"lockpickTime",20] call BIS_fnc_returnConfigEntry],
     ["_lockpickSuccessChance",[_moduleConfig,"lockpickSuccessChance",50] call BIS_fnc_returnConfigEntry],
     ["_shockDamage",[_moduleConfig,"shockDamage",0.1] call BIS_fnc_returnConfigEntry],
@@ -31,7 +32,15 @@ private _fenceGates = _fenceParts select {isClass (configfile >> "CfgVehicles" >
 {[_x,_lockpickTime,_lockpickSuccessChance,_shockDamage,_shockUnconsciousTimeMinMax] call FUNC(initGate)} forEach _fenceGates;
 
 if (isServer) then {
-    [_fenceParts] call FUNC(sparksEffectServer);
-    [_fenceParts] remoteExec ["QFUNC(sparksEffectClient)", [0,-2] select isDedicated, true];
+
+    private _identifier = format ["GRAD_electricFenceGenerator_%1", _id];
+    private _generators = missionNamespace getVariable [_identifier, []];
+
+    if (count _generators == 0) exitWith { diag_log format ["no generator found for fence %1", _id]; };
+
+    // support for only one generator right now
+    private _generator = _generators select 0;
+
+    [_fenceParts, _generator] call FUNC(sparksEffectServer);
 
 };

@@ -21,8 +21,11 @@ class grad_electricFence {
         class onActionPee;
         class peeEffect;
         class shockUnit;
+        class sparkLarge;
         class sparksEffectClient;
         class sparksEffectServer;
         class sparksGetPos;
+        class sparkSmall;
+
     };
 };

@@ -1,8 +1,8 @@
+#include "script_component.hpp"
+
 ["GRAD_electricFence_sparkSmall", {
-	 params ["_position"];
-
-	 [_position] call FUNC(sparkSmall);
-
-	 systemChat "sparksEffect"; // todo remove debug
+	params ["_fence", "_position"];
+    
+	[_fence, _position] spawn FUNC(sparkSmall);
 
 }] call CBA_fnc_addEventHandler;
